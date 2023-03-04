@@ -145,6 +145,9 @@ class Ticket(models.Model):
     # статус обращения (решён / не решен)
     is_resolved = models.BooleanField(default=False)
 
+    def __str__(self):
+        return '{}, {} вопрос решён?{}'.format(self.get_severity_display(), self.ticket_date, self.is_resolved)
+
 
 # таблица Ревью (рейтинг)
 class Review(models.Model):
