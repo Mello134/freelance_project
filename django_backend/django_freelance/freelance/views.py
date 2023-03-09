@@ -80,8 +80,35 @@ class OrderCreateView(generics.CreateAPIView):
 
 # API представление для списка Заказов
 class OrderListView(generics.ListAPIView):
-    queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+    # переопределяю queryset (фильтр)
+    def get_queryset(self):
+        queryset = Order.objects.all()  # весь список
+        params = self.request.query_params  # параметры request
+
+        order_type = params.get('order', None)  # ?order=1
+        price = params.get('price', None)  # ?price=3000
+        customer = params.get('customer', None)  # ?customer=pk/id
+
+        # проверяем в адресной строке '?order=...'
+        if order_type:
+            # если записи есть применяем фильтр
+            # queryset.filter(поле_модели=вышеуказанная_переменная)
+            queryset = queryset.filter(order_type=order_type)
+
+        # фильтр по цене
+        if price:
+            # lte - это меньше или равно (<=)
+            queryset = queryset.filter(price__lte=price)
+
+        # фильтр по заказчику
+        if customer:
+            # executor__id - Service (ForeignKey) --> Customer ->pd/id
+            queryset = queryset.filter(customer__id=customer)
+
+        # обязательно возвращаем queryset
+        return queryset
 
 
 # API представление Услуги - получить по pk
@@ -104,8 +131,40 @@ class ServiceCreateView(generics.CreateAPIView):
 
 # API представление для списка Услуг
 class ServiceListView(generics.ListAPIView):
-    queryset = Service.objects.all()
     serializer_class = ServiceSerializer
+
+    # переопределяю queryset (фильтр)
+    def get_queryset(self):
+        # изначально беру все записи, будут выводить если фильтры не используются
+        queryset = Service.objects.all()
+        # params - своя переменная. В неё запишем все параметры, что получаем из request
+        params = self.request.query_params
+
+        # """ Буду фильтровать по полям service_type, price, executor"""
+        # Переменной service_type - присваиваем то, что написано в браузерной строке, то есть в гет запросе
+        # т.е. если в адресной строке будет написано service(это ключи)=значение, если ничего присвоим просто None
+        service_type = params.get('service', None)
+        price = params.get('price', None)
+        executor = params.get('executor', None)
+
+        # проверяем, написано ли что-то в адресной строке, связанное с service_type
+        if service_type:
+            # если написано, фильтруем по полю service_type - изменяем queryset, добавив фильтр
+            # queryset.filter(поле_в_модели=переменная_в_текущем_представлении)
+            queryset = queryset.filter(service_type=service_type)
+
+        # фильтр по цене
+        if price:
+            # lte - это меньше или равно (<=)
+            queryset = queryset.filter(price__lte=price)
+
+        # фильтр по исполнителю
+        if executor:
+            # executor__id - это обращение к модели Executor к полю id, через текущую модель Service (ForeignKey)
+            queryset = queryset.filter(executor__id=executor)
+
+        # обязательно возвращаем queryset
+        return queryset
 
 
 # API представление Тега - получить по pk
@@ -176,8 +235,37 @@ class MessageCreateView(generics.CreateAPIView):
 
 # API представление для списка Сообщений
 class MessageListView(generics.ListAPIView):
-    queryset = Message.objects.all()
     serializer_class = MessageSerializer
+
+    # переопределяю queryset (фильтр)
+    def get_queryset(self):
+        queryset = Message.objects.all()  # весь список
+
+        params = self.request.query_params
+
+        # None - это default=None
+        executor = params.get('executor', None)  # фильтр по исполнителю
+        customer = params.get('customer', None)  # фильтр по заказчику
+        from_date = params.get('from_date', None)  # фильтр по дате сообщений (от)
+        to_date = params.get('to_date', None)  # фильтр по дате сообщений (до)
+
+        # применяем фильтры, если в адресной строке есть совпадения
+        if executor:
+            queryset = queryset.filter(executor__id=executor)
+
+        if customer:
+            queryset = queryset.filter(customer__id=customer)
+
+        if from_date:
+            # msg_date - поле модели Message
+            # msg_date__gte - >=, т.е msg_date >= from_date (фильтр от даты)
+            queryset = queryset.filter(msg_date__gte=from_date)
+
+        if to_date:
+            # msg_date__lte - <=, т.е msg_date >= to_date (фильтр до даты)
+            queryset = queryset.filter(msg_gate__lte=to_date)
+
+        return queryset
 
 
 # API представление Тикета - получить по pk
@@ -244,7 +332,6 @@ class ReviewCreateView(generics.CreateAPIView):
 class ReviewListView(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-
 
 
 # пример высокооуровневого API view

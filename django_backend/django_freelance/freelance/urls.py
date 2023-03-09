@@ -54,6 +54,4 @@ urlpatterns = [
     path('reviews/update/<int:pk>/', ReviewRetrieveUpdateView.as_view()),  # Обновляем Ревью по pk
     path('reviews/new/', ReviewCreateView.as_view()),  # Создаём Ревью
     path('reviews/all/', ReviewListView.as_view()),  # Получаем список Ревью
-
-
 ]
