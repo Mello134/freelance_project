@@ -1,9 +1,15 @@
 from django.urls import path  # стандартно - маршруты
 from django.urls import include  # для расширения маршрутов из других приложений
 from .views import *  # все представления из приложения
+from rest_framework.authtoken.views import obtain_auth_token  # для аутентификации
+
 
 # список маршрутов
 urlpatterns = [
+    # маршруты для получения токенов аутентификации
+    path('auth/', include('djoser.urls')),  # здесь urls джосера, для регистрации и авторизации
+    path('auth/token', obtain_auth_token, name='token'),
+
     # путь('url'/, класс_представления.as_view()/функция представления, name='имя_маршрута'),
     path('executors/<int:pk>/', ExecutorRetrieveView.as_view()),  # Получаем исполнителя по pk
     path('executors/update/<int:pk>/', ExecutorUpdateView.as_view()),  # Обновляем исполнителя по pk

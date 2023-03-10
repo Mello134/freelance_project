@@ -2,12 +2,21 @@
 
 from rest_framework.response import Response  # для создания ответа
 from rest_framework import generics
+from rest_framework import permissions, status  # проверка авторизованности
 
 # импорт всех моделей и сериализаторов
 from .models import *
 from .serializers import *
 
 from rest_framework.views import APIView
+
+
+# представление Logout
+class Logout(APIView):
+    """ Будем получать пользователя, и из его данных удаляем токен, возвращаем статус 200"""
+    def get(self, request, format=None):
+        request.user.auth_token.delete()  # удаляем токен
+        return Response(status=status.HTTP_200_OK)  # Отвечаем - 200 OK
 
 
 #____________________________________________________________________________________________
@@ -21,6 +30,8 @@ class ExecutorRetrieveView(generics.RetrieveAPIView):
 class ExecutorUpdateView(generics.UpdateAPIView):
     queryset = Executor.objects.all()
     serializer_class = CreateExecutorSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление Исполнителя для создания записи (по pk)
@@ -33,6 +44,7 @@ class ExecutorCreateView(generics.CreateAPIView):
 class ExecutorListView(generics.ListAPIView):
     queryset = Executor.objects.all()
     serializer_class = ExecutorSerializer
+
 #____________________________________________________________________________________________
 
 
@@ -46,6 +58,8 @@ class CustomerRetrieveView(generics.RetrieveAPIView):
 class CustomerUpdateView(generics.UpdateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CreateCustomerSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление Заказчика для создания записи (по pk)
@@ -70,12 +84,16 @@ class OrderRetrieveView(generics.RetrieveAPIView):
 class OrderUpdateView(generics.UpdateAPIView):
     queryset = Order.objects.all()
     serializer_class = CreateOrderSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление Заказа для создания записи (по pk)
 class OrderCreateView(generics.CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = CreateOrderSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление для списка Заказов
@@ -121,12 +139,16 @@ class ServiceRetrieveView(generics.RetrieveAPIView):
 class ServiceUpdateView(generics.UpdateAPIView):
     queryset = Service.objects.all()
     serializer_class = CreateServiceSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление Услуги для создания записи (по pk)
 class ServiceCreateView(generics.CreateAPIView):
     queryset = Service.objects.all()
     serializer_class = CreateServiceSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление для списка Услуг
@@ -177,12 +199,16 @@ class TagRetrieveView(generics.RetrieveAPIView):
 class TagUpdateView(generics.UpdateAPIView):
     queryset = Tag.objects.all()
     serializer_class = CreateTagSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление Тега для создания записи (по pk)
 class TagCreateView(generics.CreateAPIView):
     queryset = Tag.objects.all()
     serializer_class = CreateTagSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление для списка Тегов
@@ -201,12 +227,16 @@ class OrderingRetrieveView(generics.RetrieveAPIView):
 class OrderingUpdateView(generics.UpdateAPIView):
     queryset = Ordering.objects.all()
     serializer_class = CreateOrderingSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление определённого заказа для создания записи (по pk)
 class OrderingCreateView(generics.CreateAPIView):
     queryset = Ordering.objects.all()
     serializer_class = CreateOrderingSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление для списка определённого заказов
@@ -225,12 +255,16 @@ class MessageRetrieveView(generics.RetrieveAPIView):
 class MessageUpdateView(generics.UpdateAPIView):
     queryset = Message.objects.all()
     serializer_class = CreateMessageSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление Сообщения для создания записи (по pk)
 class MessageCreateView(generics.CreateAPIView):
     queryset = Message.objects.all()
     serializer_class = CreateMessageSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление для списка Сообщений
@@ -278,12 +312,16 @@ class TicketRetrieveView(generics.RetrieveAPIView):
 class TicketUpdateView(generics.UpdateAPIView):
     queryset = Ticket.objects.all()
     serializer_class = CreateTicketSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление Тикета для создания записи (по pk)
 class TicketCreateView(generics.CreateAPIView):
     queryset = Ticket.objects.all()
     serializer_class = CreateTicketSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление для списка Тикетов
@@ -302,12 +340,16 @@ class AuthoringRetrieveView(generics.RetrieveAPIView):
 class AuthoringUpdateView(generics.UpdateAPIView):
     queryset = Authoring.objects.all()
     serializer_class = CreateAuthoringSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление Автора_ревью для создания записи (по pk)
 class AuthoringCreateView(generics.CreateAPIView):
     queryset = Authoring.objects.all()
     serializer_class = CreateAuthoringSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API представление для списка Авторов_ревью
@@ -320,12 +362,16 @@ class AuthoringListView(generics.ListAPIView):
 class ReviewRetrieveUpdateView(generics.RetrieveUpdateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API - Ревью, создание
 class ReviewCreateView(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    # тип пользователя - авторизован или только для чтения
+    permission_class = permissions.IsAuthenticatedOrReadOnly
 
 
 # API - список Ревью

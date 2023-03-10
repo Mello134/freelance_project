@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'freelance.apps.FreelanceConfig',  # наше приложение freelance
     'rest_framework',  # DRF
+    # 'rest_framework.authtoken',  # для auth - с помощью джанги
     'djoser',  # djoser
     'corsheaders',  # corsheaders
 ]
@@ -124,6 +125,34 @@ CORS_ALLOW_METHODS = [
     "POST",
     "PUT",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        # "oauth2_provider.contrib.rest_framework.OAuth2Authentication",
+        # "rest_framework_social_oauth2.authentication.SocialAuthentication",
+    ],
+
+    # ? ? ?
+    # "AUTH_TOKEN_CLASSES": [
+    #     "rest_framework_simplejwt.tokens.AccessToken",
+    #     "rest_framework_simplejwt.tokens.SlidingToken",
+    # ]
+}
+
+# ? ? ?
+# AUTHENTICATION_BACKENDS = [
+#     'social_core.backends.vk.VKOAuth2',
+#     'rest_framework_social_oauth2.backends.DjangoOAuth2',
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
 
 
 # Internationalization
