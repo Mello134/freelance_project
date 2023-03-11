@@ -140,7 +140,7 @@ REST_FRAMEWORK = {
         # "rest_framework_social_oauth2.authentication.SocialAuthentication",
     ],
 
-    # ? ? ?
+    # # ? ? ?
     # "AUTH_TOKEN_CLASSES": [
     #     "rest_framework_simplejwt.tokens.AccessToken",
     #     "rest_framework_simplejwt.tokens.SlidingToken",

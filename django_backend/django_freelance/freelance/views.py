@@ -10,6 +10,8 @@ from .serializers import *
 
 from rest_framework.views import APIView
 
+from rest_framework.exceptions import PermissionDenied  # для JWT
+
 
 # представление Logout
 class Logout(APIView):
@@ -17,6 +19,13 @@ class Logout(APIView):
     def get(self, request, format=None):
         request.user.auth_token.delete()  # удаляем токен
         return Response(status=status.HTTP_200_OK)  # Отвечаем - 200 OK
+
+
+# permission для Исполнителя
+class IsExecutor(permissions.BasePermission):
+    """ Проверяет есть ли у Исполнителя доступ """
+    def has_object_permission(self, request, view, obj):
+        return obj.user == request.user
 
 
 #____________________________________________________________________________________________
@@ -30,8 +39,20 @@ class ExecutorRetrieveView(generics.RetrieveAPIView):
 class ExecutorUpdateView(generics.UpdateAPIView):
     queryset = Executor.objects.all()
     serializer_class = CreateExecutorSerializer
-    # тип пользователя - авторизован или только для чтения
-    permission_class = permissions.IsAuthenticatedOrReadOnly
+    # разрешено только исполнителю
+    permission_classes = (IsExecutor,)
+
+    # переопределяю queryset
+    def get_queryset(self):
+        # пользователь = текущий пользователь из request
+        user = self.request.user
+
+        # если пользователь авторизован
+        if user.is_authenticated:
+            # возвращаем инфу именно по авторизованному пользователю
+            return Executor.objects.filter(user=user)
+        # отработка исключения - "В доступе отказано"
+        raise PermissionDenied()
 
 
 # API представление Исполнителя для создания записи (по pk)

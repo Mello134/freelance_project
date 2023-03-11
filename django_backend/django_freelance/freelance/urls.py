@@ -1,14 +1,21 @@
 from django.urls import path  # стандартно - маршруты
 from django.urls import include  # для расширения маршрутов из других приложений
 from .views import *  # все представления из приложения
-from rest_framework.authtoken.views import obtain_auth_token  # для аутентификации
-
+# from rest_framework.authtoken.views import obtain_auth_token  # для аутентификации (django token)
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView  # JWT токен
 
 # список маршрутов
 urlpatterns = [
     # маршруты для получения токенов аутентификации
     path('auth/', include('djoser.urls')),  # здесь urls джосера, для регистрации и авторизации
-    path('auth/token', obtain_auth_token, name='token'),
+
+    # токены django (backend)
+    # path('auth/token', obtain_auth_token, name='token'),  # django token
+    # path('auth/logout', Logout.as_view()),  # выйти
+
+    # JWT токен
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # путь('url'/, класс_представления.as_view()/функция представления, name='имя_маршрута'),
     path('executors/<int:pk>/', ExecutorRetrieveView.as_view()),  # Получаем исполнителя по pk
