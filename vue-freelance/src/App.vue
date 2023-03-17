@@ -14,8 +14,7 @@
     </header> <!--    /Навбар    -->
     <div class="w-75 ms-auto"> <!--   контент(роутер)    -->
       <router-view/>
-      <p>Бла бла бла</p>
-      <p>Чёртов аксиос</p>
+      <h3 class="bg-primary text-center">Общий компоненты из App.vue ( + navbar + footer)</h3>
     </div> <!--    /контент    -->
     <footer>
       <b-jumbotron bg-variant="dark" text-variant="white">
