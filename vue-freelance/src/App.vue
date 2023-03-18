@@ -12,10 +12,10 @@
         </b-navbar-nav>
       </b-navbar>
     </header> <!--    /Навбар    -->
-    <div class="w-75 ms-auto"> <!--   контент(роутер)    -->
+    <div class="w-75 ms-auto container-fluid my-5"> <!--   контент(роутер)    -->
       <router-view/>
-      <h3 class="bg-primary text-center">Общий компоненты из App.vue ( + navbar + footer)</h3>
     </div> <!--    /контент    -->
+    <h3 class="bg-primary text-center">Общий компоненты из App.vue ( + navbar + footer)</h3>
     <footer>
       <b-jumbotron bg-variant="dark" text-variant="white">
         <div class="w-75 mx-auto">

@@ -10,7 +10,7 @@ from .serializers import *
 
 from rest_framework.views import APIView
 
-from rest_framework.exceptions import PermissionDenied  # для JWT
+from rest_framework.exceptions import PermissionDenied  # для JWT ??
 
 
 # представление Logout

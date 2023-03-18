@@ -1,8 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
+/* Импорт компонентов */
+// импорт компонента /components/auth/SignIn.vue and SignUp.vue
+import SignIn from '@/components/auth/SignIn.vue';
+import SignUp from '@/components/auth/SignUp.vue';
+
+/* Импорт представлений */
 import HomeView from '../views/HomeView.vue';
-// импорт представления /views/SignInView.vue
-import SignInView from '../views/SignInView.vue';
 // импорт представления /views/FirstComponentView.vue
 import FirstComponentView from '../views/FirstComponentView.vue';
 
@@ -28,11 +33,16 @@ const routes = [
     name: 'first',
     component: FirstComponentView,
   },
-  // мой роутер для компонента SignIn и представления SignInView
+  // мои роутеры для компонентов SignIn и SignUp
   {
     path: '/auth/signin',
-    name: 'signin',
-    component: SignInView,
+    name: 'SignIn',
+    component: SignIn,
+  },
+  {
+    path: '/auth/signup',
+    name: 'SignUp',
+    component: SignUp,
   },
 ];
 

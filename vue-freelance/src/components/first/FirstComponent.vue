@@ -5,6 +5,12 @@
     <h1>{{ msg }}</h1>
     <h1>{{ msg }}</h1>
     <h1>{{ msg }}</h1>
+    <br />
+    <br />
+    <h1>Привет</h1>
+    <div class="text-center">
+      <h3 class="text-danger">Центрер красный</h3>
+    </div>
   </div>
 </template>
 

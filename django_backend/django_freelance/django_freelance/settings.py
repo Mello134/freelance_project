@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'freelance.apps.FreelanceConfig',  # наше приложение freelance
     'rest_framework',  # DRF
-    # 'rest_framework.authtoken',  # для auth - с помощью джанги
+    'rest_framework.authtoken',  # для auth - с помощью джанги
     'djoser',  # djoser
     'corsheaders',  # corsheaders
 ]
